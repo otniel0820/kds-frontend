@@ -1,0 +1,96 @@
+.card {
+  background: var(--bg-surface);
+  border-radius: 12px;
+  padding: 14px;
+  box-shadow: var(--shadow-default);
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+
+.partnerName {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--text-primary);
+}
+
+.orderNumber {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.logoWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logoWrapper img {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.card:hover {
+  box-shadow: 0 6px 18px rgba(9, 30, 66, 0.18);
+  transform: translateY(-2px);
+}
+.priority {
+  display: inline-flex;
+  align-self: flex-start;
+  padding: 5px 6px;
+  border-radius: 10px;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.priorityNormal {
+  background: var(--priority-normal-bg);
+  color: var(--priority-normal-text);
+}
+
+.priorityHigh {
+  background: var(--priority-high-bg);
+  color: var(--priority-high-text);
+}
+/* ===== STATUS BACKGROUNDS ===== */
+
+.received {
+  background: var(--status-received);
+}
+
+.confirmed {
+  background: var(--status-confirmed);
+}
+
+.preparing {
+  background: var(--status-preparing);
+}
+
+.ready {
+  background: var(--status-ready);
+}
+
+.pickedUp {
+  background: var(--status-pickedup);
+}
+
+.delivered {
+  background: var(--status-delivered);
+}
+
+.cancelled {
+  background: var(--status-cancelled);
+}
