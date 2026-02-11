@@ -23,6 +23,7 @@ import { ORDER_STATUS_LABELS } from "@/components/order/constants/order-status-l
 import s from "./Kanban.module.scss";
 import DraggableOrderCard from "../Column/dnd/DraggableOrderCard";
 import DraggableRiderCard from "../Column/dnd/DraggableRiderCard";
+import { mapOrderToRiderViewModel } from "../order/mappers/map-order-to-rider";
 
 export default function Kanban() {
   const { ordersByStatus, updateOrderStatus } = useOrders();
@@ -95,10 +96,6 @@ export default function Kanban() {
 
     updateOrderStatus(orderId, targetStatus);
   };
-
-  function mapOrderToRiderViewModel(activeOrder: OrderListDto): RiderDto {
-    throw new Error("Function not implemented.");
-  }
 
   return (
     <DndContext
