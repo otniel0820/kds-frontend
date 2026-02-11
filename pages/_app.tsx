@@ -1,14 +1,14 @@
-import { OrdersProvider } from "@/contexts/Orders.context"
-import { RidersProvider } from "@/contexts/Riders.context"
-import "@/styles/globals.scss"
-import type { AppProps } from "next/app"
+import "@/styles/globals.scss";
+import type { AppProps } from "next/app";
+import { OrdersProvider } from "@/contexts/Orders.context";
+import { ThemeProvider } from "@/contexts/Theme.context";
 
 export default function App({ Component, pageProps }: AppProps) {
-	return (
-		<OrdersProvider>
-			<RidersProvider>
-				<Component {...pageProps} />
-			</RidersProvider>
-		</OrdersProvider>
-	)
+  return (
+    <ThemeProvider>
+      <OrdersProvider>
+        <Component {...pageProps} />
+      </OrdersProvider>
+    </ThemeProvider>
+  );
 }
