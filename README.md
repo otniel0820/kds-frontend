@@ -1,69 +1,176 @@
 # Platomico KDS Product Challenge
 
-## Gestión de órdenes y flujo operativo en tienda
+# KDS – Krazy Display Service
 
-### Contexto  
-En este desafío trabajarás sobre un escenario real de operación. Nuestra tienda recibe múltiples órdenes de forma simultánea a través de Glovo, y es fundamental contar con una herramienta que permita al equipo en tienda visualizar, gestionar y operar los pedidos de manera eficiente, asegurando una entrega fluida a los repartidores.
-
-El objetivo es diseñar e implementar una solución _full-stack_ que represente el flujo completo de una orden desde su recepción hasta su entrega, utilizando un enfoque claro, escalable y orientado a negocio.
+Kitchen Display System (KDS) desarrollado con Next.js + TypeScript.
+Permite visualizar y gestionar pedidos en un tablero tipo Kanban con soporte de tiempo real mediante WebSockets.
 
 ---
 
-### Objetivo  
-Desarrollar una solución que conecte el flujo _end-to-end_ de las órdenes, permitiendo:
+## 🚀 Descripción de la solución
 
-- Recibir pedidos desde una fuente externa, simulada o integrada.
-- Visualizar las órdenes en un sistema tipo Kanban, reflejando su estado actual.
-- Actualizar el estado de los pedidos de forma clara y confiable.
-- Facilitar la operación del equipo en tienda y la entrega a riders.
+La aplicación implementa un sistema de visualización de pedidos para cocina basado en columnas que representan estados del flujo de órdenes:
 
-Parte de la base ya está resuelta; tu trabajo será completar y estructurar el flujo, tomando decisiones técnicas fundamentadas.
+- RECEIVED
+- CONFIRMED
+- PREPARING
+- READY
+- PICKED_UP
+- DELIVERED
+- CANCELLED
 
----
+Cada pedido puede moverse entre estados mediante drag & drop, respetando reglas de transición definidas en el dominio.
 
-### Alcance del Desafío  
-Este desafío está pensado para evaluar capacidades _full-stack_, por lo que se espera:
+### Funcionalidades principales
 
-- Diseño de una arquitectura simple y funcional.
-- Implementación de lógica de negocio, _back-end_.
-- Visualización clara y usable del flujo, _front-end_.
-- Manejo del estado de las órdenes.
-- Enfoque en una solución funcional y coherente.
-
-Se sugiere utilizar Next.js y Nest.js con TypeScript
-
----
-
-### Criterios de Evaluación  
-
-Se evaluará principalmente:
-
-- Capacidad de resolución de problemas.
-- Priorización y enfoque _MVP first_.
-- Claridad en el diseño del flujo de órdenes.
-- Decisiones técnicas bien justificadas.
-- Código legible, mantenible y bien estructurado.
-- Capacidad de extender la solución (opcional).
-
-Primero debe resolverse correctamente el problema principal.  
-Las mejoras, optimizaciones o funcionalidades adicionales son bienvenidas, pero opcionales.
+- 📦 Tablero Kanban con Drag & Drop (`@dnd-kit`)
+- 🔄 Sincronización en tiempo real vía WebSocket
+- 🧠 Reglas de transición de estado encapsuladas en dominio
+- 📄 Modal con detalle de orden
+- 🎨 Soporte de tema
+- 📱 Diseño responsive con scroll horizontal
+- ⚡ Arquitectura modular y desacoplada
 
 ---
 
-### Entregables  
+## 🏗️ Arquitectura
 
-- Repositorio público en GitHub con la solución.
-- Código funcional y documentado.
-- `README` que incluya:
-  - Descripción de la solución.
-  - Instrucciones para ejecutar el proyecto.
-  - Decisiones técnicas relevantes y posibles mejoras.
+Se utilizó una arquitectura por capas inspirada en principios de separación de responsabilidades:
+
+- domain/ → Reglas puras del negocio (OrderStatus, transiciones)
+- application/ → Casos de uso y contratos (repository, realtime)
+- infrastructure/ → HTTP client y socket implementation
+- contexts/ → Estado global real (Orders)
+- components/ → UI pura
+- hooks/ → Lógica asíncrona orientada a UI
+- orchestrators/ → Coordinación entre repository y realtime
+
+### Principios aplicados
+
+- Separación clara entre UI y lógica de aplicación
+- Estado derivado calculado con `useMemo` (no duplicado en context)
+- Validación de transiciones tanto en dominio como en política de UI
+- Tipado estricto (`strict: true`)
+- Uso de `exactOptionalPropertyTypes`
+- DTOs definidos explícitamente
+- Infraestructura desacoplada mediante interfaces
 
 ---
 
-### Envío  
-Enviar el enlace al repositorio al correo indicado en la convocatoria del desafío.
+## 🔄 Flujo de actualización
+
+1. Carga inicial vía HTTP
+2. Conexión WebSocket para eventos `order.created` y `order.status.updated`
+3. Sincronización automática del tablero
+4. Validación de transiciones antes de actualizar estado
 
 ---
 
-Esperamos tu propuesta para conocer tu enfoque técnico, criterio de diseño y capacidad para resolver problemas reales de operación.
+## 📦 Tecnologías
+
+- Next.js 14
+- React 18
+- TypeScript
+- SCSS Modules
+- @dnd-kit (Drag & Drop)
+- Socket.io-client
+- Axios
+
+---
+
+## ▶️ Cómo ejecutar el proyecto
+
+### 1️⃣ Instalar dependencias
+
+```bash
+pnpm install
+```
+
+### 2️⃣ Configurar variables de entorno
+
+Crear un archivo .env.local:
+
+NEXT_PUBLIC_API_URL=http://localhost:3004
+
+### 3️⃣ Ejecutar en desarrollo
+pnpm dev
+
+
+La aplicación estará disponible en:
+
+http://localhost:3000
+
+🧠 Decisiones técnicas relevantes
+
+#### 1️⃣ Separación de Riders como estado derivado
+
+Inicialmente se evaluó un RidersContext, pero se eliminó para evitar duplicación de estado.
+Los riders se derivan directamente desde ordersByStatus usando useMemo.
+
+Esto reduce complejidad y evita renders innecesarios.
+
+#### 2️⃣ Uso de exactOptionalPropertyTypes
+
+Permite mayor precisión en los contratos de tipos.
+Evita pasar propiedades opcionales con valor undefined explícito.
+
+#### 3️⃣ Validación doble de transiciones
+
+Validación de dominio (canTransition)
+
+Política de UI (canTransitionFromUi)
+
+Esto permite restringir visualmente acciones sin modificar reglas de negocio.
+
+#### 4️⃣ Arquitectura desacoplada
+
+El UI nunca accede directamente a infraestructura.
+La comunicación se realiza a través de:
+
+Orchestrator
+
+Repository interfaces
+
+Hooks dedicados
+
+#### 5️⃣ Optimización
+
+Lookup de órdenes O(1) usando Map
+
+useMemo para estado derivado
+
+Componentes memoizados donde aplica
+
+Lazy loading de imágenes
+
+🛠 Posibles mejoras futuras
+
+Tests unitarios para reglas de transición
+
+Tests de integración para Kanban
+
+Persistencia local optimista
+
+Manejo más robusto de reconexión WebSocket
+
+Virtualización si el número de órdenes escala
+
+Mejor manejo de errores en UI
+
+Internacionalización
+
+## 📌 Consideraciones finales
+
+El objetivo principal fue construir una solución:
+
+Clara
+
+Escalable
+
+Bien tipada
+
+Con separación de responsabilidades
+
+Fácil de extender
+
+Se priorizó arquitectura limpia sobre complejidad innecesaria.
