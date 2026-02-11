@@ -1,21 +1,80 @@
 @import "/styles/variables.scss";
 
 .pk-riders {
-  width: 320px;
-  height: max-content;
-  max-height: 90vh;
-  overflow: auto;
-  min-height: 170px;
-  border: 1px solid $gray-800;
-  border-radius: 12px;
-  padding: 8px;
-  display: grid;
-  grid-template-columns: 100%;
-  justify-items: center;
-  gap: 12px;
-  background-color: $gray-900;
+  padding: 16px;
+  background: var(--bg-riders);
+  flex: 1;
+  overflow-y: auto;
+}
 
-  &__container {
-    padding: 20px;
+
+
+.riderCard {
+  padding: 16px;
+  min-height: 110px;
+  box-shadow: var(--shadow-default);
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  width: 100%;
+
+  @include respond(sm) {
+    flex-direction: column;
+    align-items: flex-start;
   }
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+
+.orderNumber {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.name {
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--text-primary);
+}
+
+.number {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.avatar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-shrink: 0;
+
+  @include respond(sm) {
+    width: 60px;
+  }
+}
+
+.avatar svg {
+  width: 80px;
+  height: auto;
+}
+
+/* Status */
+.pickedUp {
+  background: var(--status-pickedup);
+}
+
+.partner {
+  font-size: 14px;
+  font-weight: 600;
+  opacity: 0.9;
+  color: var(--text-primary);
 }
