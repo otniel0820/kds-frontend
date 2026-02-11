@@ -1,38 +1,39 @@
 @import "/styles/variables.scss";
 
 .pk-column {
-  width: 320px;
-  height: max-content;
-  max-height: 90vh;
-  overflow: auto;
-  min-height: 170px;
-  border: 1px solid $gray-800;
+  flex: 0 0 280px;
+  background: var(--bg-column);
+  box-shadow: var(--shadow-column);
   border-radius: 12px;
-  padding: 8px;
-  display: grid;
-  grid-template-columns: 100%;
-  gap: 12px;
-  background-color: $gray-900;
-
-  &__title {
-    padding: 10px;
-    & > h3 {
-      font-weight: 500;
-      color: $gray-200;
-    }
-  }
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
+  flex-shrink: 0;
+  border: 1px solid var(--border-default);
+  overflow: hidden;      // 👈 importante
+  min-height: 0;
 }
 
-.pk-card {
-  width: 100%;
-  background-color: #fff;
-  border: 1px solid $gray-1000;
-  border-radius: 12px;
-  height: 100px;
-  padding: 12px;
-  cursor: pointer;
-  &:hover {
-    transform: scale(0.99);
-    background-color: #f5f5f5;
-  }
+.pk-column__title {
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 12px;
+  color: var(--text-primary);
+}
+
+.pk-column__content {
+  flex: 1;               // 👈 hace que ocupe el espacio restante
+  min-height: 0; 
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.pk-column__content::-webkit-scrollbar {
+  display: none;
 }
