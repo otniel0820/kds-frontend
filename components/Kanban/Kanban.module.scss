@@ -1,7 +1,55 @@
+@import "/styles/variables.scss";
+
+.wrapper {
+  flex: 1;
+  display: flex;
+  overflow-x: auto;
+  overflow-y: hidden;
+  min-height: 0;
+  -webkit-overflow-scrolling: touch;
+}
+
 .pk-kanban {
   display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
-  gap: 20px;
-  padding: 20px;
+  gap: 16px;
+  padding: 25px;
+  min-width: max-content;
+  min-height: 100%;
+
+  @include respond(sm) {
+    padding: 16px;
+    gap: 12px;
+  }
+}
+
+.pk-kanban::-webkit-scrollbar {
+  height: 8px;
+}
+
+.pk-kanban::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.pk-kanban::-webkit-scrollbar-thumb {
+  background: $gray-700;
+  border-radius: 4px;
+}
+
+.pk-kanban::-webkit-scrollbar-thumb:hover {
+  background: $gray-600;
+}
+
+.pk-kanban__column {
+  flex: 0 0 340px;
+  min-width: 340px;
+
+  @include respond(md) {
+    flex: 0 0 300px;
+    min-width: 300px;
+  }
+
+  @include respond(sm) {
+    flex: 0 0 260px;
+    min-width: 260px;
+  }
 }
