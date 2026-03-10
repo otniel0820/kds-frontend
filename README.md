@@ -1,5 +1,3 @@
-# Platomico KDS Product Challenge
-
 # KDS – Krazy Display Service
 
 Kitchen Display System (KDS) desarrollado con Next.js + TypeScript.
